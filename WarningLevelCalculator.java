@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication2;
-
 import java.util.ArrayList;
-
 /**
- *
+ * This class will calculate the warning level based upon the source aircraft and the array list of neary aircraft
+ * 
  * @author Adam
+ * @author William King
  */
 public class WarningLevelCalculator {
     Aircraft[] nearList;
@@ -25,9 +19,11 @@ public class WarningLevelCalculator {
         textComm = new TextComm();
         collisions = new ArrayList();
     }
-    public WarningLevelCalculator(){
-        
-    }
+    
+    /**
+     * Constructor - Private
+     */
+    private WarningLevelCalculator(){}
     
     public void parseList(){
         /*
@@ -49,11 +45,11 @@ public class WarningLevelCalculator {
         System.out.println("Method Tested");
     }
     
+    /**
+     * Check to see if the aircraft will collide
+     * Math calculations include finding the vector headings
+     * Add aircraft to the nearby aircraft array
     public Collision detectCollision(Aircraft one, Aircraft two){
-        //check to see if the aircraft will collide
-        //math includes the math to find if the two vector headings 
-        //will intersect
-        //add to array
         return null;
     
     }

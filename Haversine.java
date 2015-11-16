@@ -22,6 +22,21 @@ public class Haversine {
         return EARTH_RADIUS * c;
     }
 
+    //find the bearing in degrees for travel from point a to point b (0 is north)
+    public double calcBearing(double[] a, double[] b)
+    {
+        double deltaLong = b[1] - a[1];
+        deltaLong = Math.toRadians(deltaLong);
+        double a0 = Math.toRadians(a[0]);
+        double b0 = Math.toRadians(b[0]);
+        double bearing = Math.atan2(Math.sin(deltaLong) * Math.cos(b0),
+                Math.cos(a0) * Math.sin(b0) - Math.sin(a0) * Math.cos(b0) * Math.cos(deltaLong));
+        //normallize
+        bearing = Math.toDegrees(bearing);
+        bearing = (bearing + 360.0) % 360.0;
+        return bearing;
+    }
+
     // given a desired collision point, time from start to collison, and the velocity/headings of two aircrafts,
     // determine the lat/long/alt of their starting points returned as a 6 slot array with
     // plane 1's as 0-2, plave 2's as 3-5

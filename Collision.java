@@ -1,5 +1,6 @@
 // Collision.java
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -47,7 +48,7 @@ public class Collision implements Comparable<Collision> {
      * @return a representation of this aircraft
      */
     public Aircraft getOwnship() {
-        return this.ownship;
+        return ownship;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Collision implements Comparable<Collision> {
      * @return a representation of the other craft
      */
     public Aircraft getOthership() {
-        return this.othership;
+        return othership;
     }
 
     /**
@@ -75,9 +76,11 @@ public class Collision implements Comparable<Collision> {
      * the collision
      */
     public double[] getLocation() {
-        double[] vector = this.ownship.getHeading();
-        double[] loc = this.ownship.getLocation();
-        throw new UnsupportedOperationException("Not implemented yet.");
+        double millisecs = predictedTime.getTime() -
+                Calendar.getInstance().getTime().getTime();
+        double hours = millisecs * 1000 * 60 * 60;
+
+        return Haversine.calcEndCoords(ownship, hours);
     }
 
     /**
@@ -87,6 +90,6 @@ public class Collision implements Comparable<Collision> {
      * @return this craft's altitude - other craft's altitude
      */
     public double getRelativeAltitude() {
-        return this.ownship.getLocation()[2] - this.othership.getLocation()[2];
+        return ownship.getLocation()[2] - othership.getLocation()[2];
     }
 }

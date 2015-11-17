@@ -5,10 +5,10 @@
 //This class has formulas used to calculate lat/long conversions
 public class Haversine {
 
-    final double EARTH_RADIUS = 2.0902e+7; //6,371km converted to feet
+    final static double EARTH_RADIUS = 2.0902e+7; //6,371km converted to feet
 
     //find the distance between 2 lat/long pairs
-    public double calcDistance(Aircraft us, Aircraft them){
+    public static double calcDistance(Aircraft us, Aircraft them){
         double a, c;
 
         double sinLat = Math.sin(Math.toRadians((them.getLocation()[0] - us.getLocation()[0]) / 2.0));
@@ -23,7 +23,7 @@ public class Haversine {
     }
 
     //find the bearing in degrees for travel from point a to point b (0 is north)
-    public double calcBearing(double[] a, double[] b)
+    public static double calcBearing(double[] a, double[] b)
     {
         double deltaLong = b[1] - a[1];
         deltaLong = Math.toRadians(deltaLong);
@@ -39,7 +39,7 @@ public class Haversine {
 
     //pass in an aircraft and time to get position after that time using the aircraft's velocity.
     //make sure time is in the correct format
-    public double[] calcEndCoords(Aircraft aircraft, double time)
+    public static double[] calcEndCoords(Aircraft aircraft, double time)
     {
         double[] endPoint = new double[3];
         double[] loc = aircraft.getLocation();
@@ -64,7 +64,7 @@ public class Haversine {
     // plane 1's as 0-2, plave 2's as 3-5
     // velocity is [0]e/w [1]n/s [2]altitudinal
     // collisionPoint[0] is latitude [1] is longitude
-    public double[] calcStartPoints(double[] cp, double time, double[] vel1, double[] vel2)
+    public static double[] calcStartPoints(double[] cp, double time, double[] vel1, double[] vel2)
     {
         double[] collisionPoint = new double[3];
         double[] results = new double[6];
@@ -106,7 +106,7 @@ public class Haversine {
     }
 
     //useful for one stationary plane
-    public double[] calcSingleStartPoint(double[] point, double time, double[] vel1)
+    public static double[] calcSingleStartPoint(double[] point, double time, double[] vel1)
     {
         double[] collisionPoint = new double[3];
         double[] results = new double[3];

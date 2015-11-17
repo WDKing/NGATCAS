@@ -37,6 +37,28 @@ public class Haversine {
         return bearing;
     }
 
+    //pass in an aircraft and time to get position after that time using the aircraft's velocity.
+    //make sure time is in the correct format
+    public double[] calcEndCoords(Aircraft aircraft, double time)
+    {
+        double[] endPoint = new double[3];
+        double[] loc = aircraft.getLocation();
+        double[] vel = aircraft.getHeading();
+
+        double distanceLL = Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+        double angDistance = distanceLL / EARTH_RADIUS;
+        double bearing = Math.atan(vel[1]/vel[0]);
+        if(bearing < 0)
+            bearing += 2 * Math.PI;
+        endPoint[0] = Math.asin(Math.sin(loc[0]) * Math.cos(angDistance) +
+                Math.cos(loc[0]) * Math.sin(angDistance) * Math.cos(bearing));
+        endPoint[1] = loc[1] + Math.atan2(Math.sin(bearing) * Math.sin(angDistance) * Math.cos(loc[0]),
+                Math.cos(angDistance) - Math.sin(loc[0]) * Math.sin(endPoint[0]));
+        endPoint[2] = loc[2] + vel[2] * time;
+
+        return endPoint;
+    }
+
     // given a desired collision point, time from start to collison, and the velocity/headings of two aircrafts,
     // determine the lat/long/alt of their starting points returned as a 6 slot array with
     // plane 1's as 0-2, plave 2's as 3-5
@@ -83,6 +105,7 @@ public class Haversine {
         return results;
     }
 
+    //useful for one stationary plane
     public double[] calcSingleStartPoint(double[] point, double time, double[] vel1)
     {
         double[] collisionPoint = new double[3];
@@ -112,4 +135,6 @@ public class Haversine {
 
         return results;
     }
+
+
 }

@@ -21,6 +21,21 @@ public class Haversine {
 
         return EARTH_RADIUS * c;
     }
+    //Overloaded the calcDistance class to take an aircraft and collision
+    //used in WarningLevelCalculator inside method testCollisionPoint
+    public static double calcDistance(Aircraft us, Collision coll){
+        double a, c;
+
+        double sinLat = Math.sin(Math.toRadians((coll.getLocation()[0] - us.getLocation()[0]) / 2.0));
+        double sinLong = Math.sin(Math.toRadians((coll.getLocation()[1] - us.getLocation()[1]) / 2.0));
+
+        a = sinLat * sinLat + Math.cos(Math.toRadians(us.getLocation()[0])) * Math.cos(Math.toRadians(coll.getLocation()[0])) *
+                sinLong * sinLong;
+
+        c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return EARTH_RADIUS * c;
+    }
 
     //find the bearing in degrees for travel from point a to point b (0 is north)
     public static double calcBearing(double[] a, double[] b)

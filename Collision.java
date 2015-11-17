@@ -39,7 +39,7 @@ public class Collision implements Comparable<Collision> {
      */
     @Override
     public int compareTo(Collision o) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return predictedTime.compareTo(o.getTime());
     }
 
     /**
@@ -47,7 +47,7 @@ public class Collision implements Comparable<Collision> {
      * @return a representation of this aircraft
      */
     public Aircraft getOwnship() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return this.ownship;
     }
 
     /**
@@ -55,7 +55,7 @@ public class Collision implements Comparable<Collision> {
      * @return a representation of the other craft
      */
     public Aircraft getOthership() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return this.othership;
     }
 
     /**
@@ -64,17 +64,19 @@ public class Collision implements Comparable<Collision> {
      * the collision is predicted to occur
      */
     public Date getTime() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return new Date(predictedTime.getTime());
     }
 
     /**
      * Calculate the predicted location of the collision, using ownship to find
      * the current vector and location of this aircraft, and from that
-     * determining where it will  be at the time stored in this Collision object
+     * determining where it will be at the time stored in this Collision object
      * @return the location where this aircraft will be at the predicted time of
      * the collision
      */
     public double[] getLocation() {
+        double[] vector = this.ownship.getHeading();
+        double[] loc = this.ownship.getLocation();
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
@@ -85,6 +87,6 @@ public class Collision implements Comparable<Collision> {
      * @return this craft's altitude - other craft's altitude
      */
     public double getRelativeAltitude() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return this.ownship.getLocation()[2] - this.othership.getLocation()[2];
     }
 }

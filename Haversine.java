@@ -1,6 +1,9 @@
-/**
- * Created by Joshua on 11/6/2015.
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
+package nextgen;
 
 //This class has formulas used to calculate lat/long conversions
 public class Haversine {
@@ -51,8 +54,8 @@ public class Haversine {
         bearing = (bearing + 360.0) % 360.0;
         return bearing;
     }
-
-    //pass in an aircraft and time to get position after that time using the aircraft's velocity.
+    
+      //pass in an aircraft and time to get position after that time using the aircraft's velocity.
     //make sure time is in the correct format
     public static double[] calcEndCoords(Aircraft aircraft, double time)
     {
@@ -120,7 +123,6 @@ public class Haversine {
         return results;
     }
 
-    //useful for one stationary plane
     public static double[] calcSingleStartPoint(double[] point, double time, double[] vel1)
     {
         double[] collisionPoint = new double[3];
@@ -150,6 +152,5 @@ public class Haversine {
 
         return results;
     }
-
-
 }
+

@@ -1,14 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package nextgen;
+
 import java.util.Date;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.FileWriter;
-import java.io.FileReader;
+//import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 /**
- * TextCommunicator that references the NearList.
  *
  * @author Christi Kazakov
  * @author Shelley King
@@ -16,29 +22,16 @@ import java.util.logging.Logger;
 public class TextCommunication   {
     BufferedReader inputStream = null;
     BufferedWriter outputStream = null;
-    String warningAlert;
+    //String warningAlert;
     String fileName;
-    Aircraft plane, myPlane;
-    int warning;
+    Aircraft myPlane;
 
-    public TextCommunication(Aircraft plane, Aircraft thisPlane, int warning){
-        this.plane = plane;
+    public TextCommunication(Aircraft thisPlane){
         this.myPlane = thisPlane;
-        this.warning = warning;
         fileName = myPlane.getId();
-    }
-    public TextCommunication(){
-
-    }
-
-    public void listener() {
+        //create file to be written to for logging
     try {
-    inputStream = new BufferedReader(new FileReader(fileName));
     outputStream = new BufferedWriter(new FileWriter(fileName));
-    String line = inputStream.readLine();
-        while(line != null){
-            line = inputStream.readLine();
-            }
     }
     catch(FileNotFoundException error){
         System.out.println("Error: File Not Found");
@@ -47,10 +40,15 @@ public class TextCommunication   {
         e.printStackTrace();
         }
     }
+    
+
+    public void listener() {
+     
+    throw new UnsupportedOperationException("Not implemented yet.");
+    }
 
     public String receiver(Object data){
-
-        return data.toString();
+        throw new UnsupportedOperationException("Not implemented yet.");   
     }
 
     public void send(String message) {
@@ -59,9 +57,11 @@ public class TextCommunication   {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        throw new UnsupportedOperationException("Not implemented yet."); 
     }
 
-    public void log(String log) {
+    
+    public void log(Aircraft otherPlane, int warning) {
         // Instantiate a Date Object for the date and time
         Date date = new Date();
         // display time and date using toString()
@@ -74,13 +74,13 @@ public class TextCommunication   {
         // **Should show the plane ID and message **
         try {
             if(warning == 1){
-               outputStream.write(str + "  " + warningLevel1 + " " + plane.getId());
+               outputStream.write(str + "  " + warningLevel1 + " " + otherPlane.getId());
             }
             else if(warning == 2){
-                outputStream.write(str + "  " + warningLevel2 + " " + plane.getId());
+                outputStream.write(str + "  " + warningLevel2 + " " + otherPlane.getId());
             }
             else if(warning == 3){
-                outputStream.write(str + "  " + warningLevel3 + " " + plane.getId());
+                outputStream.write(str + "  " + warningLevel3 + " " + otherPlane.getId());
             }
             else{
                 outputStream.write("No plane warning level received");

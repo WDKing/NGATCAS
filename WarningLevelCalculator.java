@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+package nextgen;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +11,15 @@ import java.util.Date;
 public class WarningLevelCalculator {
     ArrayList<Aircraft> nearList;
     Aircraft thisPlane;
-    //CollisionCalculator collCalc;
-    TextComm textComm;
+    TextCommunication textComm;
     ArrayList<Collision> collisions;
     Haversine haversine = new Haversine();
+    private double dist;
+    private int yellow = 1;
+    private int orange = 2;
+    private int red = 3;
+    private int green = 0;
+    
 
     static final double SAFE_ZONE = 3 * 1.15078 * 5280; //safe zone in feet
 
@@ -26,31 +28,46 @@ public class WarningLevelCalculator {
         this.nearList = nearList;
         this.thisPlane = thisPlane;
         //collCalc = new CollisionCalculator(mine, nearList);
-        textComm = new TextComm();
         collisions = new ArrayList();
+        textComm = new TextCommunication(this.thisPlane);
     }
     public WarningLevelCalculator(){
         
     }
     
     public void parseList(){
-        /*
-        for(int i = 0; i < this.nearList.length; i++){
-            
-            if(checkCollision(thisPlane, this.nearList[i])){
-                //do the math needed for calculating warnings
-                //this math includes finding out how far away 
-                //the point is and determining the level based
-                //on that distance
-                //use TextComm object to alert necessary interfaces
+        
+        Collision temp;
+        
+        for(int i = 0; i < this.nearList.size(); i++){
+            //make sure there is a list to parse
+            if(nearList == null){ break;}
+            //get a collision point
+            temp = detectCollision(thisPlane, nearList.get(i));
+            //make sure you have a collision point
+            if(temp != null){
+                //test the point to ensure its relevant
+                if(testCollisionPoint(thisPlane, temp)){
+                    //set warning levels accordingly
+                    if(dist < 100 && dist > 60){
+                        setWarningLevelYellow(nearList.get(i));
+                    }
+                    if(dist < 60 && dist > 30){
+                        setWarningLevelOrange(nearList.get(i));
+                    }
+                    if(dist < 30){
+                        setWarningLevelRed(nearList.get(i));
+                    }
+                }
+                else{
+                setWarningLevelGreen(nearList.get(i));
+                }
             }
+            
             else{
-                //set warning of this.nearList[i] to green
+                setWarningLevelGreen(nearList.get(i));
             }
-            
         }
-        */  
-        System.out.println("Method Tested");
     }
 
     //this aircraft is one, other is two
@@ -142,7 +159,7 @@ public class WarningLevelCalculator {
 
                 //create collision object
                 Date collisionTime = new Date(System.currentTimeMillis() + milliseconds);
-                collision = new Collision(one.getId(), two.getId(), collisionTime);
+                collision = new Collision(one, two, collisionTime);
             }
         }
 
@@ -150,19 +167,26 @@ public class WarningLevelCalculator {
     
     }
     
-    public boolean testCollisionPoint(Collision collision){
-        //check to see if the collision is worth looking at
-        //i.e. if its too far away, its not a point of interest
-        return false;
+    public boolean testCollisionPoint(Aircraft thisPlane, Collision collision){
+        //all calculations done will yeild positive results, no matter the direction
+        //the plane is travelling in
+        dist =  Haversine.calcDistance(thisPlane, collision);
+        if(dist < 100){
+            return true;
+        }
+        else{ return false;}
     }
     
     public void setWarningLevelYellow(Aircraft plane){
-        //generate instructions??
+        textComm.log(plane, yellow);
     }
      public void setWarningLevelOrange(Aircraft plane){
-        //generate instructions??
+        textComm.log(plane, orange);
     }
       public void setWarningLevelRed(Aircraft plane){
-        //generate instructions??
+        textComm.log(plane, red);
+    }
+       public void setWarningLevelGreen(Aircraft plane){
+        textComm.log(plane, green);
     }
 }
